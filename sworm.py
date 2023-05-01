@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import schedule
 import time
-from updatedatabase import update
+from update import update
 
 def get_data():
     #get data and make pivot table
@@ -27,14 +27,11 @@ def get_data():
     df.iloc[0] = ['locationame','lat','lon','stationid','time','elev','hour_12','hour_24','hour_3','hour_6','min_10','now','rain','latest_2days','latest_3days','attribute','city','city_sn','town','town_sn']
     df.to_csv('rain2.csv', index=False, header=False)
     #updated database
-    update()
+    
     print("success")
 
-
-
-
-schedule.every().day.at("00:00").do(get_data)
+schedule.every(10).minutes.do(get_data)
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(10)

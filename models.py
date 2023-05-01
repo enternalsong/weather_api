@@ -2,10 +2,10 @@ from server import db
 class BaseTable(db.Model):
     __tablename__ = 'rain_hour'
     index = db.Column(db.Integer, primary_key=True)
-    locationName = db.Column(db.String)
+    locationame = db.Column(db.String)
     lat = db.Column(db.Float)
     lon = db.Column(db.Float)
-    stationId = db.Column(db.String)
+    stationid = db.Column(db.String)
     time = db.Column(db.String)
     elev = db.Column(db.Float)
     hour_12=db.Column(db.Float)
@@ -13,7 +13,7 @@ class BaseTable(db.Model):
     hour_3=db.Column(db.Float)
     hour_6=db.Column(db.Float)
     min_10=db.Column(db.Float)
-    Now = db.Column(db.Float)
+    now = db.Column(db.Float)
     rain = db.Column(db.Float)
     latest_2days=db.Column(db.Float)
     latest_3days =db.Column(db.Float)
@@ -23,14 +23,14 @@ class BaseTable(db.Model):
     town= db.Column(db.String)
     town_sn = db.Column(db.Integer)
 
-    def __init__(self,index,locationName,lat,lon,stationId,time,elev,hour_12,
-                 hour_24,hour_3,hour_6,min_10,Now,rain,latest_2days,latest_3days,attribute,
+    def __init__(self,index,locationame,lat,lon,stationid,time,elev,hour_12,
+                 hour_24,hour_3,hour_6,min_10,now,rain,latest_2days,latest_3days,attribute,
                  city,city_sn,town,town_sn):
         self.index = index
-        self.locationName = locationName
+        self.locationame = locationame
         self.lat = lat
         self.lon = lon
-        self.stationId = stationId
+        self.stationid = stationid
         self.time = time
         self.elev = elev
         self.hour_12 = hour_12
@@ -38,7 +38,7 @@ class BaseTable(db.Model):
         self.hour_3 = hour_3
         self.hour_6 = hour_6
         self.min_10 = min_10
-        self.Now = Now
+        self.now = now
         self.rain = rain
         self.latest_2days = latest_2days
         self.latest_3days = latest_3days
@@ -49,27 +49,35 @@ class BaseTable(db.Model):
         self.town_sn = town_sn
         
     def serialize(self):
+        if self.rain==-998:
+            self.rain=0
+        if self.hour_3==-998:
+            self.hour_3=0
+        if self.hour_6==-998:
+            self.hour_6=0
+        if self.min_10==-998:
+            self.min_10=0
         return {
             "index": self.index,
-            "locationName": self.locationName,
+            "locationName": self.locationame,
             "lat": self.lat,
             "lon": self.lon,
             "time":self.time,
-            "stationId": self.stationId,
-            "ELEV": self.elev,
-            "Hour_12": self.hour_12,
-            "Hour_24": self.hour_24,
-            "Hour_3": self.hour_3,
-            "Hour_6": self.hour_6,
-            "MIN_10": self.min_10,
-            "Now": self.Now,
-            "RAIN":self.rain,
+            "stationId": self.stationid,
+            "elev": self.elev,
+            "hour_12": self.hour_12,
+            "hour_24": self.hour_24,
+            "hour_3": self.hour_3,
+            "hour_6": self.hour_6,
+            "min_10": self.min_10,
+            "now": self.now,
+            "rain":self.rain,
             "latest_2days": self.latest_2days,
             "latest_3days": self.latest_3days,
-            "ATTRIBUTE": self.attribute,
-            "CITY": self.city,
-            "CITY_SN": self.city_sn,
-            "TOWN": self.town,
-            "TOWN_SN": self.town_sn
+            "attribute": self.attribute,
+            "city": self.city,
+            "city_sn": self.city_sn,
+            "town": self.town,
+            "town_sn": self.town_sn
         }
 
